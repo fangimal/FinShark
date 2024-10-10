@@ -18,4 +18,17 @@ public static class StockMapperes
             MarketCap = stockModel.MarketCap
         };
     }
+
+    public static Stock ToStockFromCreateDTO(this CreateStockRequestDto requestDto)
+    {
+        return new Stock
+        {
+            Symbol = requestDto.Symbol,
+            CompanyName = requestDto.CompanyName,
+            Purchase = requestDto.Purchase,
+            LastDiv = requestDto.LastDiv,
+            Industry = requestDto.Industry,
+            MarketCap = requestDto.MarketCap
+        };
+    }
 }
