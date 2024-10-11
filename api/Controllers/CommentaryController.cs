@@ -22,4 +22,17 @@ public class CommentaryController : ControllerBase
         var commentsDto = comments.Select(c => c.ToCommentDto());
         return Ok(commentsDto);
     }
+
+    [HttpGet]
+    [Route("{id:int}")]
+    public async Task<IActionResult> GetById([FromRoute] int id)
+    {
+        var comment = await _commentRepository.GetByIdAsync(id);
+        if (comment == null)
+        {
+            return NotFound();
+        }
+        var commentDto = comment.ToCommentDto();
+        return Ok(commentDto);
+    }
 }
