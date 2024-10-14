@@ -29,8 +29,18 @@ public class StockRepository : IStockRepository
         {
             stocks = stocks.Where(s => s.Symbol.Contains(queryObject.Symbol));
         }
+
+        if (!string.IsNullOrWhiteSpace(queryObject.SortBy))
+        {
+            if(queryObject.SortBy.Equals("Symbol", StringComparison.OrdinalIgnoreCase))
+            {
+                stocks = queryObject.IsDecsending ? stocks.OrderByDescending(s => s.Symbol) : stocks.OrderBy(s => s.Symbol);
+            }
+        }
         
-        return await stocks.ToListAsync();
+        var skipNumber =(queryObject.PageNumber - 1) * queryObject.PageSize;
+        
+        return await stocks.Skip(skipNumber).Take(queryObject.PageSize).ToListAsync();
     }
 
     public async Task<Stock?> GetByIdAsync(int id)
